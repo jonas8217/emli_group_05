@@ -13,3 +13,20 @@ mkdir "${date_and_time%% *}"
 # Take picture
 rpicam-still -t 0.01 -o "${date_and_time%% *}/${date_and_time##* }".jpg
 
+# Make JSON file
+json_file=$(cat <<EOF
+{
+	"File Name": "${date_and_time##* }",
+	"Create Date": "${date_and_time%% *}",
+	"Create Seconds Epoch": "poop3",
+	"Trigger": "poop4",
+	"Subject Distance": "poop5",
+	"Exposure Time": "poop6",
+	"ISO": "poop7"
+}
+EOF
+)
+
+# Save file
+echo $json_file > "${date_and_time%% *}/${date_and_time##* }".json
+
