@@ -5,7 +5,7 @@
 # Safe metadata to JSON file of same name as image
 
 # Get date in YYYY-MM-DD format and time in HHMMSS
-date_and_time=$(date '+%Y-%m-%d %H%M%S_%3N')
+date_and_time=$(date '+%Y-%m-%d %s %H%M%S_%3N')
 
 # make directory if not currently there
 mkdir "${date_and_time%% *}"
@@ -18,7 +18,7 @@ json_file=$(cat <<EOF
 {
 	"File Name": "${date_and_time##* }",
 	"Create Date": "${date_and_time%% *}",
-	"Create Seconds Epoch": "poop3",
+	"Create Seconds Epoch": "${date_and_time[1]}",
 	"Trigger": "poop4",
 	"Subject Distance": "poop5",
 	"Exposure Time": "poop6",
