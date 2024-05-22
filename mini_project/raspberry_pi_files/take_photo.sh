@@ -24,13 +24,13 @@ trigger="$1"
 # Make JSON file
 json_file=$(cat <<EOF
 {
-	"File Name": "${current_time}",
-	"Create Date": "${current_date}",
-	"Create Seconds Epoch": "${epoch_time}",
-	"Trigger": "${trigger}",
-	"Subject Distance": "${subject_distance}",
-	"Exposure Time": "${exposure_time}",
-	"ISO": "${iso}"
+        "File Name": "${current_time}",
+        "Create Date": "${current_date}",
+        "Create Seconds Epoch": "${epoch_time}",
+        "Trigger": "${trigger}",
+        "Subject Distance": "${subject_distance}",
+        "Exposure Time": "${exposure_time}",
+        "ISO": "${iso}"
 }
 EOF
 )
@@ -40,3 +40,6 @@ echo $json_file > "${current_date}/${current_time}".json
 
 # echo path to file
 #echo  "${current_date}/${current_time}.jpg"
+
+
+
