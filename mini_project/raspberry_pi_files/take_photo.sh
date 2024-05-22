@@ -12,8 +12,8 @@ current_date=$(echo "${date_and_time}" | awk '{print $1}') && current_time=$(ech
 [ -d "${current_date}" ] || mkdir "${current_date}"
 
 # Take picture
-./capture_to_path.sh "${current_date}/${current_time}"
-
+./capture_to_path.sh "images/${current_date}/${current_time}"
+echo "${current_time}"
 # get important metadata
 metadata=$(exiftool -EXIF:ISO -EXIF:ExposureTime -EXIF:SubjectDistance -s3 "${current_date}/${current_time}.jpg")
 iso=$(echo "${metadata}" | sed -n 1p) && exposure_time=$(echo "${metadata}" | sed -n 2p) && subject_distance=$(echo "${metadata}" | sed -n 3p)
@@ -21,25 +21,7 @@ iso=$(echo "${metadata}" | sed -n 1p) && exposure_time=$(echo "${metadata}" | se
 # Read trigger version
 trigger="$1"
 
-# Make JSON file
-json_file=$(cat <<EOF
-{
-        "File Name": "${current_time}",
-        "Create Date": "${current_date}",
-        "Create Seconds Epoch": "${epoch_time}",
-        "Trigger": "${trigger}",
-        "Subject Distance": "${subject_distance}",
-        "Exposure Time": "${exposure_time}",
-        "ISO": "${iso}"
-}
-EOF
-)
-
-# Save file
-echo $json_file > "${current_date}/${current_time}".json
-
-# echo path to file
-#echo  "${current_date}/${current_time}.jpg"
-
-
+# Create metadata
+./meta_data.sh "${trigger}" "${current_time}" "${current_date}"
+echo "${current_time}"
 
