@@ -2,7 +2,7 @@
 
 # get important metadata
 # variable 1 = trigger, variable 2 = time, variable 3 = date
-metadata=$(exiftool -EXIF:ISO -EXIF:ExposureTime -EXIF:SubjectDistance -s3 "images/$3/$2.jpg")
+metadata=$(exiftool -EXIF:ISO -EXIF:ExposureTime -EXIF:SubjectDistance -s3 "/var/www/html/database/images/$3/$2.jpg")
 iso=$(echo "${metadata}" | sed -n 1p) && exposure_time=$(echo "${metadata}" | sed -n 2p) && subject_distance=$(echo "${metadata}" | sed -n 3p)
 
 # Read trigger version
@@ -23,7 +23,7 @@ EOF
 )
 
 # Save file
-echo $json_file > "${current_date}/${current_time}".json
+echo $json_file > "/var/www/html/database/images/${current_date}/${current_time}".json
 
 
 
