@@ -13,7 +13,7 @@ index="1"
 while true
 do
 	#take image every 1 second
-        sleep 1
+        sleep 2
 	# update index 
 	if [ "${index}" -eq "1" ]; then
 		index="2"
