@@ -4,6 +4,9 @@
 # Filename = localTime_ms.
 # Safe metadata to JSON file of same name as image
 
+# wait until camera is free
+./camera_free.sh
+
 # Get date in YYYY-MM-DD format and time in HHMMSS and get epoch time
 IFS=, read -r current_date current_time epoch_time <<<$(./get_time_date.sh)
 

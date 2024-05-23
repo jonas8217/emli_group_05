@@ -6,7 +6,8 @@
 # initialize index
 index="1"
 
-# take initial picture
+# take initial picture when camera is free
+./camera_free.sh
 ./capture_to_path.sh motion_images/image1
 
 # loop forever
@@ -20,9 +21,10 @@ do
 	else
 		index="1"
 	fi
-	# get time, date and epoch
-	IFS=, read -r current_date current_time epoch_time <<<$(./get_time_date.sh)
-	# take image
+	# take image when camera is ready
+	./camera_free.sh
+        # get time, date and epoch
+        IFS=, read -r current_date current_time epoch_time <<<$(./get_time_date.sh)
 	./capture_to_path.sh "motion_images/image${index}"
 	# run motion detector
 	motion=$(python3 motion_detect.py ./motion_images/image1.jpg ./motion_images/image2.jpg)
