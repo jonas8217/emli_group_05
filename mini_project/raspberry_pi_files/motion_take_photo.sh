@@ -33,7 +33,7 @@ do
 		# Create metadata
 		./meta_data.sh "motion" "${current_time}" "${current_date}" "${epoch_time}"
 		# store event in log
-		./append_log "motion" "${current_date}" "${current_time}"
+		./append_log.sh "motion" "${current_date}" "${current_time}"
 
 	fi
 done
