@@ -13,12 +13,12 @@ fi
 
 # make trigger message
 message="$1"
-if [ "${message}" == "external" ]; then
+if [ "${message}" == "External" ]; then
 	echo "${current_date} ${current_time} : Pressure plate trigered" >> /var/www/html/database/log.txt
-elif [ "{$message}" == "motion" ]; then
+elif [ "{$message}" == "Motion" ]; then
 	echo "${current_date} ${current_time} : Motion detected" >> /var/www/html/database/log.txt
-elif [ "${message}" == "time" ]; then
-	echo "${current_date} ${current_time} : 5 minutes passed so image have been taken" >> /var/www/html/database/log.txt
+elif [ "${message}" == "Time" ]; then
+	echo "${current_date} ${current_time} : 5 minutes passed. An image have been taken" >> /var/www/html/database/log.txt
 else
 	echo "${current_date} ${current_time} : ${message}" >> /var/www/html/database/log.txt 
 fi
