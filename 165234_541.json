@@ -1,0 +1,16 @@
+{
+  "File Name": "165234_541",
+  "Create Date": "2024-05-23",
+  "Create Seconds Epoch": "1716475954",
+  "Trigger": "ojg",
+  "Subject Distance": "0.4683840749 ",
+  "Exposure Time": "1/25",
+  "ISO": "200",
+  "Camera ID": "1",
+  "Drone ID": "88",
+  "seconds_epochs": "1716475973",
+  "Annotation": {
+    "Model": "WildDroneClassifier",
+    "Classification": "null"
+  }
+}
