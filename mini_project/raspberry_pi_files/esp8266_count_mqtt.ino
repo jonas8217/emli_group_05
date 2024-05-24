@@ -21,33 +21,29 @@
 ESP8266WiFiMulti WiFiMulti;
 const uint32_t conn_tout_ms = 5000;
 
-// counter
+// pressed
 #define GPIO_INTERRUPT_PIN 4
 #define DEBOUNCE_TIME 100 
-volatile unsigned long count_prev_time;
-volatile unsigned long count;
+volatile unsigned long pressed_prev_time;
+volatile bool pressed;
 
 // mqtt
 #include "Adafruit_MQTT.h"
 #include "Adafruit_MQTT_Client.h"
 WiFiClient wifi_client;
 Adafruit_MQTT_Client mqtt(&wifi_client, MQTT_SERVER, MQTT_SERVERPORT, MQTT_USERNAME, MQTT_KEY);
-Adafruit_MQTT_Publish count_mqtt_publish = Adafruit_MQTT_Publish(&mqtt, MQTT_USERNAME MQTT_TOPIC);
+Adafruit_MQTT_Publish pressed_mqtt_publish = Adafruit_MQTT_Publish(&mqtt, MQTT_USERNAME MQTT_TOPIC);
 
-// publish
-#define PUBLISH_INTERVAL 30000
-unsigned long prev_post_time;
 
-// debug
-#define DEBUG_INTERVAL 2000
+#define DEBUG_INTERVAL 10000
 unsigned long prev_debug_time;
 
-ICACHE_RAM_ATTR void count_isr()
+ICACHE_RAM_ATTR void pressed_isr()
 {
-  if (count_prev_time + DEBOUNCE_TIME < millis() || count_prev_time > millis())
+  if (pressed_prev_time + DEBOUNCE_TIME < millis() || pressed_prev_time > millis())
   {
-    count_prev_time = millis(); 
-    count++;
+    pressed_prev_time = millis(); 
+    pressed = true;
   }
 }
 
@@ -91,11 +87,11 @@ void print_wifi_status()
 
 void setup()
 {
-  // count
-  count_prev_time = millis();
-  count = 0;
+  // pressed
+  pressed_prev_time = millis();
+  pressed = false;
   pinMode(GPIO_INTERRUPT_PIN, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(GPIO_INTERRUPT_PIN), count_isr, RISING);
+  attachInterrupt(digitalPinToInterrupt(GPIO_INTERRUPT_PIN), pressed_isr, RISING);
 
   // serial
   Serial.begin(115200);
@@ -116,47 +112,46 @@ void setup()
   }
 }
 
-void publish_data()
+void send_button_pressed()
 {
-  char payload[10];
-  sprintf (payload, "%ld", count);
-  count = 0;
+  
   Serial.print(millis());
-  Serial.print(" Publishing: ");
-  Serial.println(payload);
-
-  Serial.print(millis());
-  Serial.println(" Connecting...");
+  Serial.println(" Connecting");
   if((WiFiMulti.run(conn_tout_ms) == WL_CONNECTED))
   {
     print_wifi_status();
   
     mqtt_connect();
-    if (! count_mqtt_publish.publish(payload))
-    {
-      debug("MQTT failed");
-    }
-    else
+    
+    char payload[10] = "1";
+    if (pressed_mqtt_publish.publish(payload))
     {
       debug("MQTT ok");
     }
+    else
+    {
+      debug("MQTT failed");
+    }
+  } 
+  else
+  {
+    debug("Unable to connect");
   }
 }
 
+
 void loop()
 {
-    if (millis() - prev_post_time >= PUBLISH_INTERVAL)
+    if (pressed)
     {
-      prev_post_time = millis();
-      publish_data();
+      send_button_pressed();
+      pressed = false;
     }
-   
+  
     if (millis() - prev_debug_time >= DEBUG_INTERVAL)
     {
       prev_debug_time = millis();
-      Serial.print(millis());
-      Serial.print(" ");
-      Serial.println(count);
+      Serial.println(millis());
     }
+    delay(10);
 }
-
