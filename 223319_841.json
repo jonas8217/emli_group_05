@@ -1,0 +1,16 @@
+{
+  "File Name": "223319_841",
+  "Create Date": "2024-05-23",
+  "Create Seconds Epoch": "1716496399",
+  "Trigger": "External",
+  "Subject Distance": "0.5178663905 ",
+  "Exposure Time": "1/152",
+  "ISO": "112",
+  "Camera ID": "1",
+  "Drone ID": "88",
+  "seconds_epochs": "1716558083",
+  "Annotation": {
+    "Model": "WildDroneClassifier",
+    "Classification": "null"
+  }
+}
