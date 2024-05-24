@@ -25,7 +25,7 @@
     "ImageSize": "734x420",
     "Megapixels": 0.308,
     "Annotation": {
-      "Model": "WildDroneAssistant",
+      "Model": "WildDroneClassifier",
       "Classification": "lion"
     }
   }
