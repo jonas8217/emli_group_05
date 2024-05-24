@@ -3,7 +3,7 @@
 # Define source and destination folders
 source_folder="/home/anders/Desktop/emli-final/emli_group_05/mini_project/drone_files/images"
 destination_folder="/home/anders/Desktop/emli-final/annotated_metafiles"
-model="WildDroneAssistant"
+model="WildDroneClassifier"
 
 # Synchronize folders based on file names
 # First check all files in the source folder
@@ -35,7 +35,10 @@ for file in "$source_folder"/*.jpg; do
         annotated_json_file="${destination_folder}/${filename}.json"
 
         # Add annotation metadata to the JSON file with model and classification
-        jq --arg model_var "$model" --arg classification_var "$classification" '.[].Annotation = {Model: $model_var, Classification: $classification_var}' "$json_file" > "$annotated_json_file"
+        # For test metafiles use this:
+        #jq --arg model_var "$model" --arg classification_var "$classification" '.[].Annotation = {Model: $model_var, Classification: $classification_var}' "$json_file" > "$annotated_json_file"
+        # For actual metafiles use this:
+        jq --arg model_var "$model" --arg classification_var "$classification" '.Annotation = {Model: $model_var, Classification: $classification_var}' "$json_file" > "$annotated_json_file"
 
         echo "Annotation data added to $annotated_json_file"
     fi
