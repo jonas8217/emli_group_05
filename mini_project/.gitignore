@@ -1,8 +1,0 @@
-drone_files/images/*
-drone_files/temp/*
-drone_files/metafiles/*
-*.swp
-*.swp.*
-*.save
-*.save.*
-raspberry_pi_files/motion_images/*
